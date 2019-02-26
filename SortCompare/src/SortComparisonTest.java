@@ -19,23 +19,61 @@ import org.junit.runners.JUnit4;
  *  
  *  Table of Results for Sorting Algorithms
  *  Time is in milliseconds (ms)
+ *  Merge Iterative times are n/a as i was not able to implement the algorithm correctly
  *   ____________________________________________________________________________________________
  *  |					 | Insertion | Merge Recursive  | Quick Sort | Merge Iterative | Selection|
  *  |--------------------|----------------------------------------------------------------------- |		
- *  |10 random		     | 0.0031193 | 0.015496	 		| 0.003924					   |0.0041257 |
+ *  |10 random		     | 	 0ms			0ms				0ms				n/a				0ms
  *  |--------------------|----------------------------------------------------------------------- |	
- *  |100 random			 | 0.081808	 | 0.060173	 		| 0.036225					   |0.114108  |
+ *  |100 random			 |   0ms			0ms				0ms				n/a				0ms		
  *  |--------------------|----------------------------------------------------------------------  |	
- *  |1000 random		 | 2.927472	 | 0.636652	 		| 0.420209					   |3.311959  |		
+ *  |1000 random		 |   3ms	 		1ms				0ms				n/a				6ms	
  *  |--------------------|----------------------------------------------------------------------  |		
- *  |1000 few unique	 | 1.2708893 | 0.212619	 		| 0.152245					   |1.936722  |			
+ *  |1000 few unique	 | 	 1ms			0ms				0ms				n/a				2ms
  *  |--------------------|----------------------------------------------------------------------  |	
- *  |1000 nearly ordered | 0.189114	 | 0.179615	 		| 0.224795					   |1.173585  |		
+ *  |1000 nearly ordered |   0ms 			0ms				0ms				n/a				2ms
  *  |--------------------|----------------------------------------------------------------------  |			
- *  |1000 reverse order	 | 3.323329  | 0.167037	 		| 2.350088					   |1.727926  |  
+ *  |1000 reverse order	 |   6ms   			1ms				2ms				n/a				1ms
  *  |--------------------|----------------------------------------------------------------------  |
- *  |1000 sorted		 | 0.005132	 | 0.155968	 		| 1.778540					   |1.512288  |		
+ *  |1000 sorted		 |   1ms 			0ms				1ms				n/a				1ms	
  *  |____________________|________________________________________________________________________|	
+ *  
+ *  
+ *  QUESTIONS:
+ *  (A) Insertion Sort:
+ *  	Insertion Sort works well on sorted or almost sorted arrays as insertionSort will
+ *  	simply scan over the array and only make changes when it needs to so and since sorted or almost sorted arrays require a very 
+ *  	small amount of operations, the run time will be low. The reversed array has a large run time as insertion sort will need to run 
+ *  	1000 times in order to sort the array.
+ *  
+ *  (B)Insertion Sort:
+ *     Insertion Sort has the largest difference between the input type with 1000 numbers. The nearly ordered and sorted arrays are sorted in a
+ *     very small amount of time while the random and reversed arrays take much longer. This is due to insertion sort only to attempt sorting when
+ *     it needs to, it will only scan through the array if there are no changes to be made to it.
+ *     
+ *  (C)
+ *  	Quick Sort has the best scalability out of the algorithms, this can mainly be contributed to it's average worst case 
+ *  	order of growth of O(nlogn).
+ *  
+ *  	Insertion and Selection Sort have the worst scalability out of the sorting algorithms as they have a very bad worst case order of growth
+ *  	at O(n^2)
+ *  
+ *  (D) I was unable to implement the Iterative version of mergeSort correctly
+ *  
+ *  (E)
+ *  10 numbers: quickSort
+ *  100 numbers: quickSort
+ *  1000 numbers: quickSort
+ *  1000 Duplicate numbers: quickSort
+ *  1000 Nearly Ordered numbers: quickSort
+ *  1000 numbers Reversed: Recursive mergeSort
+ *  1000 Sorted numbers: Recursive mergeSort
+ *  
+ *  
+ *  
+ *  
+ *  
+ *  
  *  
  *  
  *  
@@ -74,6 +112,12 @@ public class SortComparisonTest
     	sorting = new SortComparison();
     	double d[] = new double[0];
     	assertEquals(null, (sorting.mergeSortRecursive(d)));
+    	
+    	/*
+    	sorting = new SortComparison();
+    	double e[] = new double[0];
+    	assertEquals(null, (sorting.mergeSortIterative(d, d.length)));
+    	*/
     }
      @Test
     public void insertionTest()
@@ -115,6 +159,18 @@ public class SortComparisonTest
      	//System.out.println( "InsertionSort" +Arrays.toString(sorting.insertionSort(a)) +"\n");
      	assertEquals(Arrays.toString(sorting.quickSort(a, 0, 9)),Arrays.toString(new double[] {1.2, 5.5, 8, 9, 10, 35, 76, 77, 79.2, 99.9}));
      }
+     
+     
+     /*
+     @Test
+     public void iterativeMergeSortTest()
+     {
+    	 SortComparison sorting = new SortComparison();
+    	 double a[] = new double[]{1.2, 5.5, 79.2, 35, 10, 8, 9, 99.9, 76, 77};
+    	 assertEquals(Arrays.toString(sorting.mergeSortIterative(a, a.length-1)),Arrays.toString(new double[] {1.2, 5.5, 8, 9, 10, 35, 76, 77, 79.2, 99.9}));
+    	 
+     }
+     */
      
 
 
@@ -209,12 +265,13 @@ public class SortComparisonTest
 			
 			//SelectionSort Testing
 			SortComparison sorting = new SortComparison();
-			double begin = System.currentTimeMillis();
+			long begin = System.currentTimeMillis();
 			sorting.selectionSort(tmp1);
-			double end = System.currentTimeMillis();
+			long end = System.currentTimeMillis();
 			System.out.println("SelectionSort 10 numbers: " +(end-begin) +" ms");
 			
 			begin = System.currentTimeMillis();
+			sorting = new SortComparison();
 			sorting.selectionSort(tmp2);
 			end = System.currentTimeMillis();
 			System.out.println("SelectionSort 100 numbers: " +(end-begin) +" ms");
@@ -228,7 +285,7 @@ public class SortComparisonTest
 			
 			begin = System.currentTimeMillis();
 			sorting.selectionSort(tmp4);
-			System.out.println(Arrays.toString(tmp4));
+			//System.out.println(Arrays.toString(tmp4));
 			end = System.currentTimeMillis();
 			System.out.println("SelectionSort 1000 Duplicate numbers: " +(end-begin) +" ms");
 			
@@ -378,7 +435,54 @@ public class SortComparisonTest
 			begin = System.currentTimeMillis();
 			sorting.quickSort(tmp7, 0, tmp7.length-1);
 			end = System.currentTimeMillis();
-			System.out.println("Quick Sort 1000 Sorted numbers: " +(end-begin) +" ms");
+			System.out.println("Quick Sort 1000 Sorted numbers: " +(end-begin) +" ms \n");
+			
+			/*
+			//iterativeMergeSort Testing
+			tmp1 = Arrays.copyOf(numbers10, numbers10.length);
+			tmp2 = Arrays.copyOf(numbers100, numbers100.length);
+			tmp3 = Arrays.copyOf(numbers1000, numbers1000.length);
+			tmp4 = Arrays.copyOf(numbers1000Dupes, numbers1000Dupes.length);
+			tmp5 = Arrays.copyOf(numbers1000Nearly, numbers1000Nearly.length);
+			tmp6 = Arrays.copyOf(numbers1000Reverse, numbers1000Reverse.length);
+			tmp7 = Arrays.copyOf(numbers1000Sorted, numbers1000Sorted.length);
+			
+			begin = System.currentTimeMillis();
+			sorting.mergeSortIterative(tmp1, tmp1.length-1);
+			end = System.currentTimeMillis();
+			System.out.println("Iterative Merge Sort 10 numbers: " +(end-begin) +" ms");
+			
+			begin = System.currentTimeMillis();
+			sorting.mergeSortIterative(tmp1, tmp1.length-1);
+			end = System.currentTimeMillis();
+			System.out.println("Iterative Merge Sort 100 numbers: " +(end-begin) +" ms");
+
+			begin = System.currentTimeMillis();
+			sorting.mergeSortIterative(tmp1, tmp1.length-1);
+			end = System.currentTimeMillis();
+			System.out.println("Iterative Merge Sort 1000 numbers: " +(end-begin) +" ms");
+			
+			begin = System.currentTimeMillis();
+			sorting.mergeSortIterative(tmp1, tmp1.length-1);
+			end = System.currentTimeMillis();
+			System.out.println("Iterative Merge Sort 1000 Duplicate numbers: " +(end-begin) +" ms");
+			
+			begin = System.currentTimeMillis();
+			sorting.mergeSortIterative(tmp1, tmp1.length-1);
+			end = System.currentTimeMillis();
+			System.out.println("Iterative Merge Sort 1000 Nearly Ordered numbers: " +(end-begin) +" ms");
+			
+			begin = System.currentTimeMillis();
+			sorting.mergeSortIterative(tmp1, tmp1.length-1);
+			end = System.currentTimeMillis();
+			System.out.println("Iterative Merge Sort 1000 numbers Reversed: " +(end-begin) +" ms");
+			
+			begin = System.currentTimeMillis();
+			sorting.mergeSortIterative(tmp1, tmp1.length-1);
+			end = System.currentTimeMillis();
+			System.out.println("Iterative Merge Sort 1000 Sorted numbers: " +(end-begin) +" ms");
+			*/
+			
 		
 
 			

@@ -121,54 +121,77 @@ import java.util.Arrays;
      * @return after the method returns, the array must be in ascending sorted order.
      */
    
-    /*
-    public static void merge(double[] a, double[]temp, int from, int mid, int to)
-    {
-    	int k = from, i = from, j = mid+1;
-    	
-    	while(i <= mid && j <= to)
-    	{
-    		if(a[i] < a[j])
-    			temp[k++] = a[i++];
-    		else
-    			temp[k++] = a[j++];
-    	}
-    
-	    while(i <= mid)
-	    {
-	    	temp[k++] = a[i++];
-	    }
-	    
-	    for(i = from; i <= to; i++)
-	    {
-	    	a[i] = temp[i];
-	    }
-    }
 
-    static double[] mergeSortIterative (double a[]) {
-    	if(a.length == 0)
+    /*
+    public static double[] mergeSortIterative(double a[], int n)
+    {
+    	if(n == 0)
     		return null;
+    	int current;
+    	int startLeft;
     	
-    	int low = 0;
-    	int high = a.length-1;
-    	
-    	double[] temp = Arrays.copyOf(a, a.length);
-    	
-    	for(int m = 1; m <= high -low; m = 2*m)
+    	for(current = 1; current <= n-1;current = 2* current)
     	{
-    		for(int i = low; i< high; i += 2*m)
+    		for(startLeft = 0; startLeft < n -1; startLeft += 2*current)
     		{
-    			int from = i;
-    			int mid = i+m-1;
-    			int to = Integer.min(i + 2*m-1, high);
+    			int mid = startLeft + current -1;
     			
-    			merge(a, temp, from, mid, to);
+    			int endRight = Math.min(startLeft + 2*current-1, n-1);
+    			
+    			merge(a, startLeft, mid, endRight);
     		}
     	}
     	return a;
-
     }
-    */
+    	
+    public static void merge(double arr[], int l, int m, int r)
+    {
+    		int i,j,k;
+    		int length1 = m -l+1;
+    		int length2 = r-m;
+    		
+    		double[] L = new double[length1];
+    		double[] R = new double[length2];
+    		
+    		for(i = 0; i< length1; i++)
+    			L[i] = arr[l + i];
+    		for(j = 0; j < length2; j++)
+    			R[j] = arr[m+1+j];
+    		
+    		i = 0;
+    		j = 0;
+    		k = l;
+    		
+    		while(i < length1 && j < length2)
+    		{
+    			if(L[i] <= R[j])
+    			{
+    				arr[k] = L[i];
+    				i++;
+    			}
+    			else
+    			{
+    				arr[k] = R[j];
+    				j++;
+    			}
+    			k++;
+    		}
+    		
+    		while(i < length1)
+    		{
+    			arr[k] = L[i];
+    			i++;
+    			k++;
+    		}
+    		
+    		while(j < length2)
+    		{
+    			arr[k] = R[j];
+    			j++;
+    			k++;
+    		}
+    	}
+    	*/
     
     
     /**
